@@ -62,16 +62,12 @@ public class PropostaAprovadaConsumerService : BackgroundService
 
         try
         {
-            // Aqui você pode:
-            // 1. Criar automaticamente uma contratação
-            // 2. Enviar notificação
-            // 3. Processar regras de negócio adicionais
-            
+
+
             _logger.LogInformation(
                 "Evento PropostaAprovada processado com sucesso. PropostaId: {PropostaId}",
                 evento.PropostaId);
-            
-            // Exemplo: Log dos dados
+
             _logger.LogDebug(
                 "Dados da proposta aprovada - Tipo: {TipoSeguro}, Valor Cobertura: {ValorCobertura}, Prêmio: {ValorPremio}",
                 evento.TipoSeguro,

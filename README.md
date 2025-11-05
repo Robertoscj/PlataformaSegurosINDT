@@ -213,8 +213,8 @@ docker-compose up --build
 # Crie os bancos: propostadb e contratacaodb
 
 # 2. Execute os scripts de banco (opcional)
-psql -U postgres -d propostadb -f database/proposta-init.sql
-psql -U postgres -d contratacaodb -f database/contratacao-init.sql
+psql -U postgres -d propostadb -f database/proposta.sql
+psql -U postgres -d contratacaodb -f database/contratacao.sql
 
 # 3. Execute as migrations (o EF fará automaticamente no startup em Dev)
 # Ou manualmente:
