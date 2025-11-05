@@ -29,7 +29,7 @@
     
     <!-- AWS SDK para Mensageria -->
     <PackageReference Include="AWSSDK.SQS" Version="3.7.400" />
-    <PackageReference Include="AWSSDK.SNS" Version="3.7.400" />
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.400" />
     <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
   </ItemGroup>
 
