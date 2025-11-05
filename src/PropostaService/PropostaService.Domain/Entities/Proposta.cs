@@ -9,11 +9,11 @@ namespace PropostaService.Domain.Entities;
 public class Proposta
 {
     public Guid Id { get; private set; }
-    public string NomeCliente { get; private set; }
-    public Cpf CpfCliente { get; private set; }
-    public string TipoSeguro { get; private set; }
-    public ValorMonetario ValorCobertura { get; private set; }
-    public ValorMonetario ValorPremio { get; private set; }
+    public string NomeCliente { get; private set; } = null!;
+    public Cpf CpfCliente { get; private set; } = null!;
+    public string TipoSeguro { get; private set; } = null!;
+    public ValorMonetario ValorCobertura { get; private set; } = null!;
+    public ValorMonetario ValorPremio { get; private set; } = null!;
     public StatusProposta Status { get; private set; }
     public DateTime DataCriacao { get; private set; }
     public DateTime? DataAtualizacao { get; private set; }

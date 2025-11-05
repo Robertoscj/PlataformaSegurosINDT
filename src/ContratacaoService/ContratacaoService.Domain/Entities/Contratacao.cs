@@ -7,7 +7,7 @@ public class Contratacao
 {
     public Guid Id { get; private set; }
     public Guid PropostaId { get; private set; }
-    public string NumeroApolice { get; private set; }
+    public string NumeroApolice { get; private set; } = null!;
     public DateTime DataContratacao { get; private set; }
     public DateTime DataVigenciaInicio { get; private set; }
     public DateTime DataVigenciaFim { get; private set; }

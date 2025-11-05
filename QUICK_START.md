@@ -20,6 +20,31 @@ docker-compose up --build
 
 ### Opção 2: Execução Local
 
+#### Método A: Usando o script helper (Recomendado)
+
+```bash
+# 1. Entre no diretório do projeto
+cd PlataformaSegurosINDT
+
+# 2. Instale o PostgreSQL localmente ou via Docker
+docker run --name postgres-local -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:16
+
+# 3. Restaure as dependências
+dotnet restore
+
+# 4. Execute com hot reload (Terminal 1)
+./scripts/executar-servico.sh proposta watch
+
+# 5. Execute com hot reload (Terminal 2)
+./scripts/executar-servico.sh contratacao watch
+
+# Swagger abrirá automaticamente no navegador!
+# PropostaService: http://localhost:5001
+# ContratacaoService: http://localhost:5002
+```
+
+#### Método B: Executando manualmente
+
 ```bash
 # 1. Entre no diretório do projeto
 cd PlataformaSegurosINDT
@@ -32,13 +57,16 @@ dotnet restore
 
 # 4. Execute o PropostaService (Terminal 1)
 cd src/PropostaService/PropostaService.API
-dotnet run
+dotnet watch run  # ou apenas: dotnet run
 
 # 5. Execute o ContratacaoService (Terminal 2)
 cd src/ContratacaoService/ContratacaoService.API
-dotnet run
+dotnet watch run  # ou apenas: dotnet run
 
 # As migrations são aplicadas automaticamente na primeira execução
+# Swagger disponível em:
+# - http://localhost:5001 (PropostaService)
+# - http://localhost:5002 (ContratacaoService)
 ```
 
 ## 🔐 Configuração de Ambientes
@@ -126,7 +154,7 @@ dotnet test tests/ContratacaoService.Tests/
 ## 📖 Documentação Adicional
 
 - **[README.md](README.md)** - Documentação completa do projeto
-- **[ARCHITECTURE.md](ARCHITECTURE.md)** - Detalhes da arquitetura hexagonal
+- **[ARQUITETURA.md](ARQUITETURA.md)** - Detalhes da arquitetura hexagonal
 - **[ENV_SETUP.md](ENV_SETUP.md)** - Guia de configuração de ambientes
 - **[INDEX.md](INDEX.md)** - Índice de toda documentação
 
@@ -218,7 +246,7 @@ docker-compose -f docker-compose.yml build
 Se precisar de ajuda:
 1. Verifique a documentação completa no [README.md](README.md)
 2. Consulte o guia de ambientes em [ENV_SETUP.md](ENV_SETUP.md)
-3. Revise a arquitetura em [ARCHITECTURE.md](ARCHITECTURE.md)
+3. Revise a arquitetura em [ARQUITETURA.md](ARQUITETURA.md)
 
 ---
 

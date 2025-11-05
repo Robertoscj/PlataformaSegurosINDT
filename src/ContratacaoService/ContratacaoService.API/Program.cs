@@ -61,11 +61,12 @@ builder.Services.AddHealthChecks()
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Contratacao Service API v1");
+    c.RoutePrefix = string.Empty; // Swagger na raiz (http://localhost:5002)
+});
 
 app.UseCors("AllowAll");
 
@@ -78,9 +79,19 @@ app.MapHealthChecks("/health");
 // Auto-migrate database on startup (apenas para desenvolvimento)
 if (app.Environment.IsDevelopment())
 {
-    using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<ContratacaoDbContext>();
-    await dbContext.Database.MigrateAsync();
+    try
+    {
+        using var scope = app.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ContratacaoDbContext>();
+        await dbContext.Database.MigrateAsync();
+        Console.WriteLine("✅ Database migration completed successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"⚠️  Warning: Could not connect to database. Running without database.");
+        Console.WriteLine($"   Error: {ex.Message}");
+        Console.WriteLine($"   Swagger is available at the configured URL.");
+    }
 }
 
 app.Run();

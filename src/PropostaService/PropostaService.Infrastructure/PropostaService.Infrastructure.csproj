@@ -16,16 +16,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemoryDatabase" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
     
     <!-- PostgreSQL (Padrão) -->
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
     
-    <!-- SQL Server (Opcional - instalar se necessário) -->
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" Condition="'$(UseSqlServer)' == 'true'" />
+    <!-- SQL Server (Sempre disponível para flexibilidade) -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
     
-    <!-- MySQL (Opcional - instalar se necessário) -->
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0" Condition="'$(UseMySql)' == 'true'" />
+    <!-- MySQL (Sempre disponível para flexibilidade) -->
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0" />
   </ItemGroup>
 
 </Project>
