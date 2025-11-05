@@ -1,7 +1,10 @@
+using Amazon.SQS;
 using Microsoft.EntityFrameworkCore;
+using ContratacaoService.API.BackgroundServices;
 using ContratacaoService.Application.UseCases;
 using ContratacaoService.Domain.Ports;
 using ContratacaoService.Infrastructure.ExternalServices;
+using ContratacaoService.Infrastructure.Messaging;
 using ContratacaoService.Infrastructure.Persistence;
 using ContratacaoService.Infrastructure.Repositories;
 
@@ -35,13 +38,20 @@ builder.Services.AddHttpClient<IPropostaServiceClient, PropostaServiceClient>(cl
     client.Timeout = TimeSpan.FromSeconds(30);
 });
 
+// AWS Services
+builder.Services.AddAWSService<IAmazonSQS>();
+
 // Dependency Injection - Hexagonal Architecture
 builder.Services.AddScoped<IContratacaoRepository, ContratacaoRepository>();
+builder.Services.AddSingleton<IMessageConsumer, SqsMessageConsumer>();
 
 // Use Cases
 builder.Services.AddScoped<ContratarPropostaUseCase>();
 builder.Services.AddScoped<ListarContratacoesUseCase>();
 builder.Services.AddScoped<ObterContratacaoUseCase>();
+
+// Background Services
+builder.Services.AddHostedService<PropostaAprovadaConsumerService>();
 
 // CORS
 builder.Services.AddCors(options =>

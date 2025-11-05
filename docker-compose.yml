@@ -41,6 +41,23 @@ services:
     networks:
       - seguros-network
 
+  # LocalStack para simular AWS (SNS, SQS)
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    environment:
+      - SERVICES=sns,sqs
+      - DEBUG=1
+      - AWS_DEFAULT_REGION=us-east-1
+      - EAGER_SERVICE_LOADING=1
+    ports:
+      - "4566:4566"
+    volumes:
+      - "./scripts/init-localstack.sh:/etc/localstack/init/ready.d/init-aws.sh"
+      - "localstack-data:/var/lib/localstack"
+    networks:
+      - seguros-network
+
   # API PropostaService
   proposta-api:
     build:
@@ -50,11 +67,15 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=proposta-db;Port=5432;Database=propostadb;Username=postgres;Password=postgres
+      - AWS__ServiceURL=http://localstack:4566
+      - AWS__SNS__PropostaAprovadaTopic=arn:aws:sns:us-east-1:000000000000:proposta-aprovada
     ports:
       - "5001:80"
     depends_on:
       proposta-db:
         condition: service_healthy
+      localstack:
+        condition: service_started
     networks:
       - seguros-network
     restart: unless-stopped
@@ -69,12 +90,16 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=contratacao-db;Port=5432;Database=contratacaodb;Username=postgres;Password=postgres
       - PropostaService__BaseUrl=http://proposta-api:80
+      - AWS__ServiceURL=http://localstack:4566
+      - AWS__SQS__PropostaAprovadaQueue=http://localstack:4566/000000000000/proposta-aprovada-queue
     ports:
       - "5002:80"
     depends_on:
       contratacao-db:
         condition: service_healthy
       proposta-api:
+        condition: service_started
+      localstack:
         condition: service_started
     networks:
       - seguros-network
@@ -84,6 +109,8 @@ volumes:
   proposta-db-data:
     driver: local
   contratacao-db-data:
+    driver: local
+  localstack-data:
     driver: local
 
 networks:

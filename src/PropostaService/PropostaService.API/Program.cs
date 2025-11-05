@@ -1,7 +1,9 @@
+using Amazon.SimpleNotificationService;
 using Microsoft.EntityFrameworkCore;
 using PropostaService.Application.UseCases;
 using PropostaService.Domain.Ports;
 using PropostaService.Infrastructure.Database;
+using PropostaService.Infrastructure.Messaging;
 using PropostaService.Infrastructure.Persistence;
 using PropostaService.Infrastructure.Repositories;
 
@@ -42,8 +44,12 @@ builder.Services.AddDbContext<PropostaDbContext>(options =>
 builder.Services.AddSingleton(databaseProvider);
 Console.WriteLine($"🗄️  Database Provider: {databaseProvider.ProviderName}");
 
+// AWS Services
+builder.Services.AddAWSService<IAmazonSimpleNotificationService>();
+
 // Dependency Injection - Hexagonal Architecture
 builder.Services.AddScoped<IPropostaRepository, PropostaRepository>();
+builder.Services.AddScoped<IMessagePublisher, SnsMessagePublisher>();
 
 // Use Cases
 builder.Services.AddScoped<CriarPropostaUseCase>();

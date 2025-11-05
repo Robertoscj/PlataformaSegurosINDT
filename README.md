@@ -88,6 +88,9 @@ O projeto segue rigorosamente a Arquitetura Hexagonal, dividindo cada microservi
 
 ### Comunicação entre Microserviços
 
+O sistema suporta **dois tipos de comunicação**:
+
+#### 1. **Síncrona** (HTTP REST)
 ```
 ┌─────────────────┐         HTTP REST         ┌──────────────────┐
 │                 │ ─────────────────────────> │                  │
@@ -97,10 +100,42 @@ O projeto segue rigorosamente a Arquitetura Hexagonal, dividindo cada microservi
 └─────────────────┘                            └──────────────────┘
 ```
 
+#### 2. **Assíncrona** (Mensageria AWS)
+```
+┌─────────────────┐                            ┌──────────────────┐
+│   Proposta      │   Publica Evento (SNS)     │                  │
+│    Service      │ ───────────────┐           │                  │
+└─────────────────┘                │           │                  │
+                                   ▼           │                  │
+                            ┌──────────┐       │                  │
+                            │ AWS SNS  │       │                  │
+                            │  Topic   │       │                  │
+                            └────┬─────┘       │                  │
+                                 │             │                  │
+                                 ▼             │                  │
+                            ┌──────────┐       │                  │
+                            │ AWS SQS  │       │                  │
+                            │  Queue   │       │                  │
+                            └────┬─────┘       │                  │
+                                 │             │  Contratacao     │
+                                 └────────────>│    Service       │
+                                Consome Evento │                  │
+                                               └──────────────────┘
+```
+
+**Quando uma proposta é aprovada:**
+1. PropostaService publica evento `PropostaAprovada` no SNS
+2. SNS encaminha para fila SQS
+3. ContratacaoService consome automaticamente
+4. Processamento assíncrono e desacoplado
+
+📚 **Veja mais:** [MENSAGERIA.md](MENSAGERIA.md)
+
 ## 🛠️ Tecnologias Utilizadas
 
 - **.NET 8** - Framework principal
 - **C# 12** - Linguagem
+- **AWS SDK** - SNS e SQS para mensageria assíncrona
 - **Entity Framework Core 8** - ORM
 - **PostgreSQL** - Banco de dados relacional
 - **Docker & Docker Compose** - Containerização
