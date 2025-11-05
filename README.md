@@ -555,5 +555,5 @@ Desenvolvido como teste técnico demonstrando conhecimentos em:
 
 ## 📄 Licença
 
-Este projeto é um teste técnico para fins educacionais.
+Este projeto é um teste técnico .
 
