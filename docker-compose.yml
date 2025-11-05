@@ -1,0 +1,92 @@
+version: '3.8'
+
+services:
+  # PostgreSQL para PropostaService
+  proposta-db:
+    image: postgres:16-alpine
+    container_name: proposta-db
+    environment:
+      POSTGRES_DB: propostadb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - proposta-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - seguros-network
+
+  # PostgreSQL para ContratacaoService
+  contratacao-db:
+    image: postgres:16-alpine
+    container_name: contratacao-db
+    environment:
+      POSTGRES_DB: contratacaodb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    volumes:
+      - contratacao-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - seguros-network
+
+  # API PropostaService
+  proposta-api:
+    build:
+      context: .
+      dockerfile: src/PropostaService/PropostaService.API/Dockerfile
+    container_name: proposta-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=proposta-db;Port=5432;Database=propostadb;Username=postgres;Password=postgres
+    ports:
+      - "5001:80"
+    depends_on:
+      proposta-db:
+        condition: service_healthy
+    networks:
+      - seguros-network
+    restart: unless-stopped
+
+  # API ContratacaoService
+  contratacao-api:
+    build:
+      context: .
+      dockerfile: src/ContratacaoService/ContratacaoService.API/Dockerfile
+    container_name: contratacao-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=contratacao-db;Port=5432;Database=contratacaodb;Username=postgres;Password=postgres
+      - PropostaService__BaseUrl=http://proposta-api:80
+    ports:
+      - "5002:80"
+    depends_on:
+      contratacao-db:
+        condition: service_healthy
+      proposta-api:
+        condition: service_started
+    networks:
+      - seguros-network
+    restart: unless-stopped
+
+volumes:
+  proposta-db-data:
+    driver: local
+  contratacao-db-data:
+    driver: local
+
+networks:
+  seguros-network:
+    driver: bridge
+
