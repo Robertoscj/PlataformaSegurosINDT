@@ -590,5 +590,5 @@ Desenvolvido como teste técnico demonstrando conhecimentos em:
 
 ## 📄 Licença
 
-Este projeto é um teste técnico .
+Este projeto foi desenvolvido por **Roberto Carlos da Silva**, Desenvolvedor Sênior .NET.
 

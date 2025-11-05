@@ -40,18 +40,18 @@ case $choice in
         PROVIDER="SqlServer"
         CONNECTION_STRING_EXAMPLE="Server=localhost;Database=propostadb;User Id=sa;Password=YourPassword;TrustServerCertificate=True"
         PACKAGE="Microsoft.EntityFrameworkCore.SqlServer"
-        INSTALLED=false
+        INSTALLED=true
         ;;
     3)
         PROVIDER="MySql"
         CONNECTION_STRING_EXAMPLE="Server=localhost;Database=propostadb;User=root;Password=password"
         PACKAGE="Pomelo.EntityFrameworkCore.MySql"
-        INSTALLED=false
+        INSTALLED=true
         ;;
     4)
         PROVIDER="InMemory"
         CONNECTION_STRING_EXAMPLE="TestDatabase"
-        PACKAGE="Microsoft.EntityFrameworkCore.InMemoryDatabase"
+        PACKAGE="Microsoft.EntityFrameworkCore.InMemory"
         INSTALLED=true
         ;;
     *)
@@ -73,15 +73,15 @@ if [ "$INSTALLED" = false ]; then
     if [[ $REPLY =~ ^[Ss]$ ]]; then
         echo ""
         echo "Instalando $PACKAGE..."
-        
+
         cd src/PropostaService/PropostaService.Infrastructure
         dotnet add package "$PACKAGE"
-        
+
         cd ../../ContratacaoService/ContratacaoService.Infrastructure
         dotnet add package "$PACKAGE"
-        
+
         cd ../../..
-        
+
         echo -e "${GREEN}✓${NC} Pacote instalado!"
     else
         echo -e "${YELLOW}⚠️  Você precisará instalar manualmente:${NC}"
@@ -112,7 +112,7 @@ PROPOSTA_APPSETTINGS="src/PropostaService/PropostaService.API/appsettings.Develo
 if [ -f "$PROPOSTA_APPSETTINGS" ]; then
     # Backup
     cp "$PROPOSTA_APPSETTINGS" "$PROPOSTA_APPSETTINGS.backup"
-    
+
     # Usar jq se disponível, caso contrário, manual
     if command -v jq &> /dev/null; then
         jq ".Database.Provider = \"$PROVIDER\" | .ConnectionStrings.DefaultConnection = \"$CONNECTION_STRING\"" "$PROPOSTA_APPSETTINGS.backup" > "$PROPOSTA_APPSETTINGS"
@@ -127,7 +127,7 @@ fi
 CONTRATACAO_APPSETTINGS="src/ContratacaoService/ContratacaoService.API/appsettings.Development.json"
 if [ -f "$CONTRATACAO_APPSETTINGS" ]; then
     cp "$CONTRATACAO_APPSETTINGS" "$CONTRATACAO_APPSETTINGS.backup"
-    
+
     if command -v jq &> /dev/null; then
         jq ".Database.Provider = \"$PROVIDER\" | .ConnectionStrings.DefaultConnection = \"$CONNECTION_STRING\"" "$CONTRATACAO_APPSETTINGS.backup" > "$CONTRATACAO_APPSETTINGS"
     fi

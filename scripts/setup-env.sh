@@ -17,7 +17,7 @@ NC='\033[0m' # No Color
 check_env_file() {
     local file=$1
     local name=$2
-    
+
     if [ -f "$file" ]; then
         echo -e "${GREEN}✓${NC} Arquivo $name está configurado: $file"
         return 0

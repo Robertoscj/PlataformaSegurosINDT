@@ -41,7 +41,7 @@ public class PropostaRepository : IPropostaRepository
     }
 
     public async Task<IEnumerable<Proposta>> ListarPorStatusAsync(
-        StatusProposta status, 
+        StatusProposta status,
         CancellationToken cancellationToken = default)
     {
         return await _context.Propostas

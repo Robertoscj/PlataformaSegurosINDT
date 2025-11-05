@@ -12,8 +12,8 @@ public class InMemoryProvider : IDatabaseProvider
     public void Configure(DbContextOptionsBuilder options, string connectionString)
     {
         // Para InMemory, connectionString é usado como nome do banco
-        var databaseName = string.IsNullOrEmpty(connectionString) 
-            ? "PropostaTestDb" 
+        var databaseName = string.IsNullOrEmpty(connectionString)
+            ? "PropostaTestDb"
             : connectionString;
 
         options.UseInMemoryDatabase(databaseName);
@@ -21,7 +21,7 @@ public class InMemoryProvider : IDatabaseProvider
 
     public bool IsAvailable()
     {
-        // InMemory sempre está disponível no EF Core
+
         return true;
     }
 

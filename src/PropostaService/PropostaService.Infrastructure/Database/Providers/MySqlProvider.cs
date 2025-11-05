@@ -30,7 +30,7 @@ public class MySqlProvider : IDatabaseProvider
     {
         try
         {
-            // Verifica se o pacote Pomelo.EntityFrameworkCore.MySql está disponível
+
             var type = Type.GetType("Microsoft.EntityFrameworkCore.MySqlDbContextOptionsBuilderExtensions, Pomelo.EntityFrameworkCore.MySql");
             return type != null;
         }

@@ -20,7 +20,7 @@ public class PropostaConfiguration : IEntityTypeConfiguration<Proposta>
             .IsRequired()
             .HasMaxLength(200);
 
-        // Configuração do Value Object CPF
+
         builder.Property(p => p.CpfCliente)
             .HasConversion(
                 cpf => cpf.Numero,
@@ -33,7 +33,6 @@ public class PropostaConfiguration : IEntityTypeConfiguration<Proposta>
             .IsRequired()
             .HasMaxLength(50);
 
-        // Configuração do Value Object ValorCobertura
         builder.Property(p => p.ValorCobertura)
             .HasConversion(
                 valor => valor.Valor,
@@ -42,7 +41,6 @@ public class PropostaConfiguration : IEntityTypeConfiguration<Proposta>
             .HasColumnType("decimal(18,2)")
             .HasColumnName("ValorCobertura");
 
-        // Configuração do Value Object ValorPremio
         builder.Property(p => p.ValorPremio)
             .HasConversion(
                 valor => valor.Valor,

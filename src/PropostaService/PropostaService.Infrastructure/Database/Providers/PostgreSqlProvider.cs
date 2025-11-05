@@ -26,7 +26,7 @@ public class PostgreSqlProvider : IDatabaseProvider
     {
         try
         {
-            // Verifica se o pacote Npgsql está disponível
+
             var assembly = typeof(Npgsql.NpgsqlConnection).Assembly;
             return assembly != null;
         }

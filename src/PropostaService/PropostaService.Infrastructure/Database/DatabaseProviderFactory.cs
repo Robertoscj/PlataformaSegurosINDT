@@ -13,14 +13,14 @@ public static class DatabaseProviderFactory
         { "postgresql", () => new PostgreSqlProvider() },
         { "postgres", () => new PostgreSqlProvider() },
         { "npgsql", () => new PostgreSqlProvider() },
-        
+
         { "sqlserver", () => new SqlServerProvider() },
         { "mssql", () => new SqlServerProvider() },
         { "sql", () => new SqlServerProvider() },
-        
+
         { "mysql", () => new MySqlProvider() },
         { "mariadb", () => new MySqlProvider() },
-        
+
         { "inmemory", () => new InMemoryProvider() },
         { "memory", () => new InMemoryProvider() }
     };
@@ -38,7 +38,7 @@ public static class DatabaseProviderFactory
         if (_providers.TryGetValue(normalizedName, out var factory))
         {
             var provider = factory();
-            
+
             if (!provider.IsAvailable())
             {
                 throw new InvalidOperationException(
