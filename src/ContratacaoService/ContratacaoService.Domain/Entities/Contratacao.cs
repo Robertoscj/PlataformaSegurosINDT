@@ -1,8 +1,6 @@
 namespace ContratacaoService.Domain.Entities;
 
-/// <summary>
-/// Entidade que representa uma contratação de seguro
-/// </summary>
+
 public class Contratacao
 {
     public Guid Id { get; private set; }
@@ -13,7 +11,7 @@ public class Contratacao
     public DateTime DataVigenciaFim { get; private set; }
     public decimal ValorPremio { get; private set; }
 
-    // Construtor para EF Core
+
     private Contratacao() { }
 
     private Contratacao(

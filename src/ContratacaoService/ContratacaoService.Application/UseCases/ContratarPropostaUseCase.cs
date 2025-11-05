@@ -16,9 +16,9 @@ public class ContratarPropostaUseCase
         IContratacaoRepository contratacaoRepository,
         IPropostaServiceClient propostaServiceClient)
     {
-        _contratacaoRepository = contratacaoRepository ?? 
+        _contratacaoRepository = contratacaoRepository ??
             throw new ArgumentNullException(nameof(contratacaoRepository));
-        _propostaServiceClient = propostaServiceClient ?? 
+        _propostaServiceClient = propostaServiceClient ??
             throw new ArgumentNullException(nameof(propostaServiceClient));
     }
 
@@ -29,7 +29,7 @@ public class ContratarPropostaUseCase
         if (request == null)
             throw new ArgumentNullException(nameof(request));
 
-        // Verifica se já existe uma contratação para esta proposta
+
         var contratacaoExistente = await _contratacaoRepository
             .ExisteContratacaoParaPropostaAsync(request.PropostaId, cancellationToken);
 
@@ -37,7 +37,7 @@ public class ContratarPropostaUseCase
             throw new InvalidOperationException(
                 $"Já existe uma contratação para a proposta {request.PropostaId}");
 
-        // Busca a proposta no PropostaService
+
         var proposta = await _propostaServiceClient
             .ObterPropostaAsync(request.PropostaId, cancellationToken);
 
@@ -50,7 +50,7 @@ public class ContratarPropostaUseCase
             throw new InvalidOperationException(
                 "Apenas propostas aprovadas podem ser contratadas");
 
-        // Cria a contratação
+
         var contratacao = Contratacao.Criar(
             proposta.Id,
             request.DataVigenciaInicio,

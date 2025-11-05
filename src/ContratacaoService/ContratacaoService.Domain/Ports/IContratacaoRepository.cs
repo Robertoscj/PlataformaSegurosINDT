@@ -2,9 +2,7 @@ using ContratacaoService.Domain.Entities;
 
 namespace ContratacaoService.Domain.Ports;
 
-/// <summary>
-/// Port (interface) para o repositório de contratações
-/// </summary>
+
 public interface IContratacaoRepository
 {
     Task<Contratacao> CriarAsync(Contratacao contratacao, CancellationToken cancellationToken = default);

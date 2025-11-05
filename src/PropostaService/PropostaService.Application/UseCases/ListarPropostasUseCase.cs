@@ -5,9 +5,7 @@ using PropostaService.Domain.Ports;
 
 namespace PropostaService.Application.UseCases;
 
-/// <summary>
-/// Caso de uso para listar propostas
-/// </summary>
+
 public class ListarPropostasUseCase
 {
     private readonly IPropostaRepository _repository;

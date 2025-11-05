@@ -17,7 +17,7 @@ public class CriarPropostaUseCase
     }
 
     public async Task<PropostaResponse> ExecutarAsync(
-        CriarPropostaRequest request, 
+        CriarPropostaRequest request,
         CancellationToken cancellationToken = default)
     {
         if (request == null)

@@ -15,7 +15,7 @@ public class PropostaServiceClient : IPropostaServiceClient
     private readonly ILogger<PropostaServiceClient> _logger;
 
     public PropostaServiceClient(
-        HttpClient httpClient, 
+        HttpClient httpClient,
         ILogger<PropostaServiceClient> logger)
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
@@ -23,7 +23,7 @@ public class PropostaServiceClient : IPropostaServiceClient
     }
 
     public async Task<PropostaDto?> ObterPropostaAsync(
-        Guid propostaId, 
+        Guid propostaId,
         CancellationToken cancellationToken = default)
     {
         try
@@ -31,7 +31,7 @@ public class PropostaServiceClient : IPropostaServiceClient
             _logger.LogInformation("Buscando proposta {PropostaId} no PropostaService", propostaId);
 
             var response = await _httpClient.GetAsync(
-                $"api/propostas/{propostaId}", 
+                $"api/propostas/{propostaId}",
                 cancellationToken);
 
             if (!response.IsSuccessStatusCode)
@@ -43,16 +43,16 @@ public class PropostaServiceClient : IPropostaServiceClient
                 }
 
                 _logger.LogError(
-                    "Erro ao buscar proposta {PropostaId}. Status: {StatusCode}", 
-                    propostaId, 
+                    "Erro ao buscar proposta {PropostaId}. Status: {StatusCode}",
+                    propostaId,
                     response.StatusCode);
-                
+
                 throw new HttpRequestException(
                     $"Erro ao comunicar com PropostaService. Status: {response.StatusCode}");
             }
 
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
-            
+
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -61,8 +61,8 @@ public class PropostaServiceClient : IPropostaServiceClient
             var proposta = JsonSerializer.Deserialize<PropostaDto>(content, options);
 
             _logger.LogInformation(
-                "Proposta {PropostaId} obtida com sucesso. Status: {Status}", 
-                propostaId, 
+                "Proposta {PropostaId} obtida com sucesso. Status: {Status}",
+                propostaId,
                 proposta?.Status);
 
             return proposta;

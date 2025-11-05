@@ -44,12 +44,12 @@ public class PropostasController : ControllerBase
         try
         {
             var proposta = await _criarPropostaUseCase.ExecutarAsync(request, cancellationToken);
-            
+
             _logger.LogInformation("Proposta criada com sucesso: {PropostaId}", proposta.Id);
-            
+
             return CreatedAtAction(
-                nameof(ObterProposta), 
-                new { id = proposta.Id }, 
+                nameof(ObterProposta),
+                new { id = proposta.Id },
                 proposta);
         }
         catch (ArgumentException ex)
@@ -132,13 +132,13 @@ public class PropostasController : ControllerBase
         try
         {
             var proposta = await _alterarStatusPropostaUseCase.ExecutarAsync(
-                id, 
-                request.NovoStatus, 
+                id,
+                request.NovoStatus,
                 cancellationToken);
 
             _logger.LogInformation(
-                "Status da proposta {PropostaId} alterado para {Status}", 
-                id, 
+                "Status da proposta {PropostaId} alterado para {Status}",
+                id,
                 request.NovoStatus);
 
             return Ok(proposta);

@@ -240,14 +240,3 @@ dotnet publish --configuration Release --output ./publish
 # Build Docker
 docker-compose -f docker-compose.yml build
 ```
-
-## 📞 Ajuda
-
-Se precisar de ajuda:
-1. Verifique a documentação completa no [README.md](README.md)
-2. Consulte o guia de ambientes em [ENV_SETUP.md](ENV_SETUP.md)
-3. Revise a arquitetura em [ARQUITETURA.md](ARQUITETURA.md)
-
----
-
-**Boa jornada! 🚀**

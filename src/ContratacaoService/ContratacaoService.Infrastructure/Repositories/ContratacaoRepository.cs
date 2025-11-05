@@ -18,7 +18,7 @@ public class ContratacaoRepository : IContratacaoRepository
     }
 
     public async Task<Contratacao> CriarAsync(
-        Contratacao contratacao, 
+        Contratacao contratacao,
         CancellationToken cancellationToken = default)
     {
         await _context.Contratacoes.AddAsync(contratacao, cancellationToken);
@@ -27,7 +27,7 @@ public class ContratacaoRepository : IContratacaoRepository
     }
 
     public async Task<Contratacao?> ObterPorIdAsync(
-        Guid id, 
+        Guid id,
         CancellationToken cancellationToken = default)
     {
         return await _context.Contratacoes
@@ -36,7 +36,7 @@ public class ContratacaoRepository : IContratacaoRepository
     }
 
     public async Task<Contratacao?> ObterPorPropostaIdAsync(
-        Guid propostaId, 
+        Guid propostaId,
         CancellationToken cancellationToken = default)
     {
         return await _context.Contratacoes
@@ -54,7 +54,7 @@ public class ContratacaoRepository : IContratacaoRepository
     }
 
     public async Task<bool> ExisteContratacaoParaPropostaAsync(
-        Guid propostaId, 
+        Guid propostaId,
         CancellationToken cancellationToken = default)
     {
         return await _context.Contratacoes

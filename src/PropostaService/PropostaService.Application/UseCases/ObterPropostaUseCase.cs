@@ -17,7 +17,7 @@ public class ObterPropostaUseCase
     }
 
     public async Task<PropostaResponse?> ExecutarAsync(
-        Guid id, 
+        Guid id,
         CancellationToken cancellationToken = default)
     {
         var proposta = await _repository.ObterPorIdAsync(id, cancellationToken);
